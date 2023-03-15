@@ -167,8 +167,8 @@ class Graph(object):
     @staticmethod
     def from_onnx(graph):  # type: (GraphProto) -> Graph
         input_tensors = {
-            t.name: numpy_helper.to_array(t) for t in graph.initializer
-        }
+            t.name: numpy_helper.to_array(t) for t in graph.initializer }
+        
         nodes_ = []
         nodes_by_input = {}  # type: Dict[Text, List[Node]]
         nodes_by_output = {}

@@ -2,24 +2,34 @@
 This tool converts [pytorch](https://github.com/pytorch/pytorch) model to [Caffe](https://github.com/BVLC/caffe) model by [ONNX](https://github.com/onnx/onnx)  
 only use for inference
 
+
+### Update
+20230315: change pool roundmethod to floor, which pytorch used. add centernet example, pretrained from [mmdetection](https://github.com/open-mmlab/mmdetection).
+
+
 ### Dependencies
 * caffe (with python support)
 * pytorch 0.4 (optional if you only want to convert onnx)
 * onnx  
 
-we recomand using protobuf 2.6.1 and install onnx from source  
+
+### install
 ```
-git clone --recursive https://github.com/onnx/onnx.git
-cd onnx 
+git clone https://github.com/chenjun2hao/onnx2caffe.git
 python setup.py install
+
+or install on develop mode
+python setup.py develop
 ```
 
+
 ### How to use
-run test.py to make sure it has been installed correctly  
-To convert onnx model to caffe:
+just run in terminal
 ```
-python convertCaffe.py ./model/MobileNetV2.onnx ./model/MobileNetV2.prototxt ./model/MobileNetV2.caffemodel
+onnx2caffe ./model/MobileNetV2.onnx ./model/MobileNetV2.prototxt ./model/MobileNetV2.caffemodel
 ```
+
+
 ### Current support operation
 * Conv
 * ConvTranspose

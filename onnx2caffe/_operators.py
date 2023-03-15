@@ -6,7 +6,7 @@ from caffe import params as P
 import math
 import numpy as np
 from ._graph import Node, Graph
-from MyCaffe import Function as myf
+from onnx2caffe.MyCaffe import Function as myf
 
 def _compare(a, b, encoding="utf8"): #type: (Text, Text, Text) -> bool
     if isinstance(a, bytes):
@@ -227,7 +227,8 @@ def _convert_pool(node,graph,err):
                                                                                     stride_h = strides[0],
                                                                                     stride_w = strides[1],
                                                                                     pad_h = pads[0],
-                                                                                    pad_w = pads[1]))
+                                                                                    pad_w = pads[1],
+                                                                                    round_mode=P.Pooling.FLOOR))
     graph.channel_dims[output_name] = graph.channel_dims[input_name]
     return layer
 
@@ -252,8 +253,9 @@ def _convert_gemm(node,graph,err):
                                 "Weight tensor: {} not found in the graph initializer".format(weight_name, ))
         return
 
-    if node.attrs["broadcast"] != 1 or node.attrs["transB"] != 1:
-        return err.unsupported_op_configuration(node,"Gemm is supported only for inner_product layer")
+    if node.attrs.get('broadcast', None):
+        if node.attrs["broadcast"] != 1 or node.attrs["transB"] != 1:
+            return err.unsupported_op_configuration(node,"Gemm is supported only for inner_product layer")
 
     b = None
     bias_flag = False
