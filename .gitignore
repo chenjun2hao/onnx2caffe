@@ -1,7 +1,10 @@
 .idea
+.vscode
 *.pyc
 __pycache__/*
 output/*
 build/
 dist/
 onnx2caffe.egg-info/
+
+weights/

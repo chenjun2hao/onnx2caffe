@@ -76,6 +76,23 @@ def _convert_relu(node,graph,err):
 
     return layer
 
+
+def _convert_clip(node, graph, err):
+    input_name = str(node.inputs[0])
+    output_name = str(node.outputs[0])
+    name = str(node.name)
+
+    min_name = str(node.inputs[1])
+    max_name = str(node.inputs[2])
+    min_value = int(node.input_tensors[min_name])
+    max_value = int(node.input_tensors[max_name])
+
+    layer = myf("Clip", name, [input_name], [output_name], 
+                min=min_value, max=max_value)
+    graph.channel_dims[output_name] = graph.channel_dims[input_name]
+
+    return layer
+
 def _convert_sigmoid(node,graph,err):
     input_name = str(node.inputs[0])
     output_name = str(node.outputs[0])
@@ -386,6 +403,7 @@ def _convert_conv_transpose(node,graph,err):
 _ONNX_NODE_REGISTRY = {
     "Conv": _convert_conv,
     "Relu": _convert_relu,
+    "Clip": _convert_clip,
     "BatchNormalization": _convert_BatchNorm,
     "Add": _convert_Add,
     "Mul": _convert_Mul,

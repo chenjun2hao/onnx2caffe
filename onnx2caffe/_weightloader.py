@@ -32,6 +32,9 @@ def _convert_conv(net, node, graph, err):
 def _convert_relu(net, node, graph, err):
     pass
 
+def _convert_clip(net, node, graph, err):
+    pass
+
 def _convert_sigmoid(net, node, graph, err):
     pass
 
@@ -129,6 +132,7 @@ def _convert_conv_transpose(net, node, graph, err):
 _ONNX_NODE_REGISTRY = {
     "Conv": _convert_conv,
     "Relu": _convert_relu,
+    "Clip": _convert_clip,
     "BatchNormalization": _convert_BatchNorm,
     "Add": _convert_Add,
     "Mul": _convert_Mul,
